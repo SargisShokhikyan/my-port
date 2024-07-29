@@ -1,0 +1,100 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body, html{
+	width: 100%;
+	background-color: black;
+	font-family: 'Kanit', sans-serif;
+}
+nav{
+	background-image: linear-gradient(to top, #000000, #434343);
+  width: 100%;
+}
+a{
+  color: #d53739;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.20em;
+  display: inline-block;
+  position: relative;
+}
+a{
+  display: inline-block;
+  position: relative;
+}
+a:after {    
+  background: none repeat scroll 0 0 transparent;
+  bottom: 0;
+  content: "";
+  display: block;
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  background: #d53739;
+  transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0;
+}
+a:hover:after { 
+  width: 100%;
+  left: 0; 
+}
+@media screen and (max-height: 300px) {
+	ul {
+		margin-top: 40px;
+	}
+}
+
+.dropdown-menu .dropdown-item{
+  background: #273037;
+  color: #d53739;
+	opacity: 1;
+}
+
+span[data-title] {
+  position: relative;
+}
+
+span[data-title]:hover::before {
+  content: attr(data-title);
+  position: absolute;
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  font-size: 12px;
+  font-family: sans-serif;
+  white-space: nowrap;
+}
+
+.title0[data-title]:hover::before{
+  margin-left: 70px;
+}
+.title1[data-title]:hover::before{
+  margin-left: 190px;
+}
+.title2[data-title]:hover::before{
+  margin-left: 115px;
+}
+.title3[data-title]:hover::before{
+  margin-left: 75px;
+}
+.title4[data-title]:hover::before{
+  margin-left: 75px;
+}
+
+.container-fluid button{
+	/*background-color: #4CAF50;  Green */
+	background-color: grey;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.container-fluid button:hover{
+	background-color: #d53739;
+}
