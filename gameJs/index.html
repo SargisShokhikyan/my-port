@@ -1,0 +1,322 @@
+<html>
+<title>Pixel</title>
+	<meta charset="utf8">
+<!-- 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
+    <script src="class.js"></script>
+	<script src="script.js"></script> -->
+<head>
+    <meta charset="utf8">
+    <script src="p5.js"></script>
+    <script src="class.js"></script>
+    <script src="script.js"></script>
+    <style>
+    	#white{
+    		 background-color:#dee2de;
+    	}
+    	#green{
+    		background-color:#29d829;
+    	}
+    	#red{
+    		background-color:red;
+    	}
+    	#blue{
+    		background-color:#1e69aa;
+    	}
+    	#yellow{
+    		background-color:yellow;
+    	}
+    	#dark{
+    		background-color:#252b30;
+    	}
+    	#grey{
+    		background-color:#707172;
+    	}
+        div{
+            display:inline-block;
+        }
+        table, tr, td{
+        	 border: 1px solid black;
+        	 border-collapse:collapse;
+        	 padding:5px;
+        }
+    	table{
+			margin-top:20px;
+			margin-right:20px;
+			float:right;
+		}
+    	body{
+    		font-family:optima
+    	}
+		#first{
+			background-color:#232323;
+			color:white;
+		}
+		.alice{
+			border-color:aliceblue;
+			height:40px;
+		}
+    </style>
+</head>
+
+
+<body>
+	<table>
+		<tr id="first">
+			<td class="alice"></td>
+			<td class="alice">Color</td>
+			<td class="alice">Basic Info</td>
+			<td class="alice">Energy</td>
+			<td class="alice">Multiply info</td>
+			<td class="alice">Energy Obtainment</td>
+			<td class="alice">Special Characteristic</td>
+		</tr>
+		<tr>
+			<td id="white"></td>
+			<td>
+				<p>White</p>
+			</td>
+			<td>
+				<p>Just an empty space</p>
+			</td>
+			<td>
+				<p>-</p>
+			</td>
+			<td>No multiply</td>
+			<td>
+				<p>No energy</p>
+			</td>
+			<td>
+				<p>No special characteristics</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td id="green"></td>
+			<td>
+				<p>Green</p>
+			</td>
+			<td>
+				<p>It's just a Grass.</p>
+			</td>
+			<td>
+				<p>-</p>
+			</td>
+			<td>
+				<p>Can multiply once in 5 frames</p>
+			</td>
+			<td>
+				<p>No energy</p>
+			</td>
+			<td>
+				<p>No special characteristics</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td id="blue"></td>
+			<td>
+				<p>Blue</p>
+			</td>
+			<td>
+				<p>Hunter</p>
+			</td>
+			<td>
+				<p>7</p>
+			</td>
+			<td>
+				<p>ավելանում է գիշատիչ ուտելուց հետո</p>
+			</td>
+			<td>
+				<p>Eating red</p>
+			</td>
+			<td>
+				<p>սպանում է գիշատիչներին</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td id="red"></td>
+			<td>
+				<p>Red</p>
+			</td>
+			<td>
+				<p>Predator</p>
+			</td>
+			<td>
+				<p>9</p>
+			</td>
+			<td>
+				<p>բազնամում է խոտակեր ուտելուց հետո</p>
+			</td>
+			<td>
+				<p>Eating yellow</p>
+			</td>
+			<td>
+				<p>ուտում է խոտակերին</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td id="yellow"></td>
+			<td>
+				<p>Yellow</p>
+			</td>
+			<td>
+				<p>Grass eater</p>
+			</td>
+			<td>
+				<p>16</p>
+			</td>
+			<td>
+				<p>բազնամում է խոտ ուտելուց հետո</p>
+			</td>
+			<td>
+				<p>Eating green</p>
+			</td>
+			<td>
+				<p>Appears randomly; <br>ուտում է խոտ</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td id="grey"></td>
+			<td>
+				<p>Grey</p>
+			</td>
+			<td>
+				<p>Damaged soil</p>
+			</td>
+			<td>
+				<p>-</p>
+			</td>
+			<td>
+				<p>No multiply</p>
+			</td>
+			<td>
+				<p>No energy</p>
+			</td>
+			<td>
+				<p></p>
+			</td>
+		</tr>
+
+		<tr>
+			<td id="dark"></td>
+			<td>
+				<p>Dark</p>
+			</td>
+			<td>
+				<p>Die</p>
+			</td>
+			<td>
+				<p>-</p>
+			</td>
+			<td>
+				<p>դանդաղ բազմանում</p>
+			</td>
+			<td>
+				<p>No energy</p>
+			</td>
+			<td>
+				<p>երբ ուտումես անկախ կնյանքերից մահանումես</p>
+			</td>
+		</tr>
+
+		
+	</table>
+	<br>
+
+	<style>
+		
+		 .cont {
+		  margin-top: 0px;
+		  margin-left: 0px;
+		}
+		.cont button {
+		  position: absolute;
+		  display: inline-block;
+		  outline: none;
+		  border: 0;
+		  vertical-align: middle;
+		  text-decoration: none;
+		  background: transparent;
+		  padding: 0;
+		  font-size: inherit;
+		  font-family: inherit;
+		  }
+		  .cont button.learn-more {
+		  width: 12rem;
+		  height: auto;
+		  }
+		  .cont button.learn-more .circle {
+		  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+		  position: relative;
+		  display: block;
+		  margin: 0;
+		  width: 3rem;
+		  height: 3rem;
+		  background: #282936;
+		  border-radius: 1.625rem;
+		  }
+		  .cont button.learn-more .circle .icon {
+		  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+		  position: absolute;
+		  top: 0;
+		  bottom: 0;
+		  margin: auto;
+		  background: #fff;
+		  }
+		  .cont button.learn-more .circle .icon.arrow {
+		  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+		  left: 0.625rem;
+		  width: 1.125rem;
+		  height: 0.125rem;
+		  background: none;
+		  }
+		  .cont button.learn-more .circle .icon.arrow::before {
+		  position: absolute;
+		  content: "";
+		  top: -0.25rem;
+		  right: 0.0625rem;
+		  width: 0.625rem;
+		  height: 0.625rem;
+		  border-top: 0.125rem solid #fff;
+		  border-right: 0.125rem solid #fff;
+		  transform: rotate(45deg);
+		  }
+		  .cont button.learn-more .button-text {
+		  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  right: 0;
+		  bottom: 0;
+		  padding: 0.75rem 0;
+		  margin: 0 0 0 1.85rem;
+		  color: #282936;
+		  font-weight: 700;
+		  line-height: 1.6;
+		  text-align: center;
+		  text-transform: uppercase;
+		  }
+		  .cont button:hover .circle {
+		  width: 100%;
+		  }
+		  .cont button:hover .circle .icon.arrow {
+		  background: #fff;
+		  transform: translate(1rem, 0);
+		  }
+		  .cont button:hover .button-text {
+		  color: white;
+		  }</style>
+		 <div class="cont">
+		  <button class="learn-more">
+			<span class="circle" aria-hidden="true">
+			  <span class="icon arrow"></span>
+			</span>
+			<a href="../gameJavaScript.html"><span class="button-text">Go back</span></a>
+			</button>
+		  </div>	
+</body>
+
+</html>

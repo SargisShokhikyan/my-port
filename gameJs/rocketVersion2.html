@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rocket</title>
+<style>
+	body {
+		/*background: url(106826.jpg);*/
+		background: url(forrocketgame/space.png);
+	}
+</style>
+<script>
+var r = 10;
+var sit;
+var time = 10;
+var sp;
+var rx = 10;
+var ry = 300;
+
+var ship0;
+var ship1;
+var ship2;
+var ship3;
+var ship4;
+var enemy0;
+var enemy1;
+var enemy2;
+var enemy3;
+var enemy4;
+var enemy5;
+var enemy6;
+var enemy7;
+var enemy9;
+var enemy10;
+var enemy11;
+var enemy12;
+
+function init(){
+  c = document.getElementById("can");
+  //c.addEventListener("mousemove", moveship, false);
+  document.addEventListener("keydown", keyUpHandler, false);  
+  ctx = c.getContext("2d");
+  cw = c.width;
+  ch = c.height;
+  ship0 = document.getElementById("ship");
+  ship1 = document.getElementById("starship");
+  ship2 = document.getElementById("starship1");
+  ship3 = document.getElementById("starship2");
+  ship4 = document.getElementById("starship3");  
+
+  enemy0 = document.getElementById("enemy0");
+  enemy1 = document.getElementById("enemy1");
+  enemy2 = document.getElementById("enemy2");
+  enemy3 = document.getElementById("enemy3");
+  enemy4 = document.getElementById("enemy4");
+  enemy5 = document.getElementById("enemy5");
+  enemy6 = document.getElementById("enemy6");
+  enemy7 = document.getElementById("enemy7");
+  enemy8 = document.getElementById("enemy8");
+  enemy9 = document.getElementById("enemy9");
+  enemy10 = document.getElementById("enemy10");
+  enemy11 = document.getElementById("enemy11");
+  enemy12 = document.getElementById("enemy12");
+
+  sp = document.getElementById("space");
+  heart = document.getElementById("heart");
+  alert("collect 500 point to win");
+  randomNumber();
+}
+
+function game(){
+  clock();
+  drawSpace();
+  drawMyShip();
+  drawFire();
+  drawEnemy();
+  moveMyShip();
+  moveSpace();
+  moveEnemy();
+  destroyEnemy();
+  minusheart();
+}
+
+function load(){
+  init();
+  document.getElementById("stop").disabled = true;
+  document.getElementById("start").disabled = false;
+}
+
+function start(){
+  sit = setInterval(game, time);
+  playAudio();
+  document.getElementById("stop").disabled = false;
+  document.getElementById("start").disabled = true;
+}
+
+function stop(){
+  clearInterval(sit);
+  document.getElementById("start").disabled = false;
+  document.getElementById("stop").disabled = true;
+}
+
+var right = false;
+var left = false;
+var up = false;
+var down = false;
+function keyUpHandler(e){
+  var key = e.keyCode;
+  if (key == 38) {
+    up = true;
+    left = false;
+    right = false;
+    down = false;
+  }
+  if (key == 40) {
+    down = true;
+    left = false;
+    up = false;
+    right = false;
+  }
+  if (key == 37) {
+    left = true;
+    right = false;
+    up = false;
+    down = false;
+  }
+  if (key == 39) {
+    right = true;
+    left = false;
+    up = false;
+    down = false;
+  }
+  if (key == 32) {
+
+  }
+}
+function moveMyShip(){
+  if(right){
+    rx+=2;
+    if (rx > 800) {
+      rx = 799;
+    }
+  }
+  if(left){
+    rx-=2;
+    if (rx < -25) {
+      rx = -24;
+    }
+  }
+  if(up){
+    ry-=2;
+    if (ry < -15) {
+      ry = -14;
+    }
+  }
+  if(down){
+    ry+=2;
+    if (ry > 480) {
+      ry = 479;
+    }
+  }
+}
+function drawMyShip(){
+  if (shipNum == 0) {
+    ctx.drawImage(ship0, rx+40, ry+40);
+  }
+  if (shipNum == 1) {
+    ctx.drawImage(ship1, rx+40, ry+40);
+  }
+  if (shipNum == 2) {
+    ctx.drawImage(ship2, rx+40, ry+40);
+  }
+  if (shipNum == 3) {
+    ctx.drawImage(ship3, rx+40, ry+40);
+  }
+  if (shipNum == 4) {
+    ctx.drawImage(ship4, rx+40, ry+40);
+  }
+}
+var shipNum = 0;
+function changeMyShip(num){
+  shipNum = num;
+}
+
+var x = 0;
+var y = 0;
+var vx = 10;
+function drawSpace(){
+  ctx.drawImage(sp, x, y);
+}
+function moveSpace(){
+  x = x - vx;
+  if(x == -900){
+       x = 0;
+  }
+}
+
+var fireX = 180;
+var fireY = 400;
+function drawFire(){
+  //document.getElementById("clock").innerHTML = rx+" "+ry;
+  drawCircle(fireX, fireY, r, 0, Math.PI*2, "red");
+  drawCircle(fireX+20, fireY, r, 0, Math.PI*2, "red");
+  drawCircle(fireX+40, fireY, r, 0, Math.PI*2, "red");
+  drawCircle(fireX+60, fireY, r, 0, Math.PI*2, "red");
+  fireX+=4;
+  if (fireX >= 970) {
+    fireX = rx+170;
+    fireY = ry+100;
+  }
+}
+
+var score = 0;
+var randX = 0;
+var randY = 0;
+var enemyFireX = [];
+var enemyFireY = [];
+var arrRandNumX = [];
+var arrRandNum = [];
+var countEnemy = 4;
+function randomNumber(){
+  for (var i = 0; i < countEnemy; i++) {
+    randX = Math.ceil(Math.random()*20)+930;
+    randY = Math.ceil(Math.random()*600);
+    if (randY > 100 && randY < 500) {
+      arrRandNum[i] = randY;
+      enemyFireY[i] = randY;
+    }
+    arrRandNumX[i] = randX;
+    enemyFireX[i] = randX;
+  }
+  i = 0;
+}
+
+var EnemyNum1 = 0;
+var EnemyNum2 = 0;
+var EnemyNum3 = 0;
+var EnemyNum4 = 0;
+function changeEnemy1(num){
+  EnemyNum1 = num;
+}
+function changeEnemy2(num){
+  EnemyNum2 = num;
+}
+function changeEnemy3(num){
+  EnemyNum3 = num;
+}
+function changeEnemy4(num){
+  EnemyNum4 = num;
+}
+
+function drawEnemyShip1(){
+    switch (EnemyNum1) {
+    case 0:
+      ctx.drawImage(enemy0, arrRandNumX[0], arrRandNum[0]);
+      break;
+    case 1:
+      ctx.drawImage(enemy1, arrRandNumX[0], arrRandNum[0]);
+      break;
+    case 2:
+      ctx.drawImage(enemy2, arrRandNumX[0], arrRandNum[0]);
+      break;
+    case 3:
+      ctx.drawImage(enemy3, arrRandNumX[0], arrRandNum[0]);
+      break;
+    case 4:
+      ctx.drawImage(enemy4, arrRandNumX[0], arrRandNum[0]);
+      break;
+    case 5:
+      ctx.drawImage(enemy5, arrRandNumX[0], arrRandNum[0]);
+      break;
+    case 6:
+      ctx.drawImage(enemy6, arrRandNumX[0], arrRandNum[0]);
+    }
+}
+function drawEnemyShip2(){
+    switch (EnemyNum2) {
+    case 0:
+      ctx.drawImage(enemy0, arrRandNumX[1], arrRandNum[1]);
+      break;
+    case 1:
+      ctx.drawImage(enemy1, arrRandNumX[1], arrRandNum[1]);
+      break;
+    case 2:
+      ctx.drawImage(enemy2, arrRandNumX[1], arrRandNum[1]);
+      break;
+    case 3:
+      ctx.drawImage(enemy3, arrRandNumX[1], arrRandNum[1]);
+      break;
+    case 4:
+      ctx.drawImage(enemy4, arrRandNumX[1], arrRandNum[1]);
+      break;
+    case 5:
+      ctx.drawImage(enemy5, arrRandNumX[1], arrRandNum[1]);
+      break;
+    case 6:
+      ctx.drawImage(enemy6, arrRandNumX[1], arrRandNum[1]);
+    }
+}
+function drawEnemyShip3(){
+    switch (EnemyNum3) {
+    case 0:
+      ctx.drawImage(enemy0, arrRandNumX[2], arrRandNum[2]);
+      break;
+    case 1:
+      ctx.drawImage(enemy1, arrRandNumX[2], arrRandNum[2]);
+      break;
+    case 2:
+      ctx.drawImage(enemy2, arrRandNumX[2], arrRandNum[2]);
+      break;
+    case 3:
+      ctx.drawImage(enemy3, arrRandNumX[2], arrRandNum[2]);
+      break;
+    case 4:
+      ctx.drawImage(enemy4, arrRandNumX[2], arrRandNum[2]);
+      break;
+    case 5:
+      ctx.drawImage(enemy5, arrRandNumX[2], arrRandNum[2]);
+      break;
+    case 6:
+      ctx.drawImage(enemy6, arrRandNumX[2], arrRandNum[2]);
+    }
+}
+function drawEnemyShip4(){
+    switch (EnemyNum4) {
+    case 0:
+      ctx.drawImage(enemy0, arrRandNumX[3], arrRandNum[3]);
+      break;
+    case 1:
+      ctx.drawImage(enemy1, arrRandNumX[3], arrRandNum[3]);
+      break;
+    case 2:
+      ctx.drawImage(enemy2, arrRandNumX[3], arrRandNum[3]);
+      break;
+    case 3:
+      ctx.drawImage(enemy3, arrRandNumX[3], arrRandNum[3]);
+      break;
+    case 4:
+      ctx.drawImage(enemy4, arrRandNumX[3], arrRandNum[3]);
+      break;
+    case 5:
+      ctx.drawImage(enemy5, arrRandNumX[3], arrRandNum[3]);
+      break;
+    case 6:
+      ctx.drawImage(enemy6, arrRandNumX[3], arrRandNum[3]);
+    }
+}
+
+function drawEnemy(){
+  for (var i = 0; i < countEnemy; i++) {
+    drawCircle(enemyFireX[i], enemyFireY[i], r, 0, Math.PI*2, "yellow");
+  }
+  drawEnemyShip1();
+  drawEnemyShip2();
+  drawEnemyShip3();
+  drawEnemyShip4();
+  
+  if (arrRandNumX[0] == 10) {
+    arrRandNum[0] = Math.ceil(Math.random()*550);
+    arrRandNumX[0] = 960;
+    if (enemyFireX[0] < 10) {
+        enemyFireX[0] = 970;
+        enemyFireY[0] = arrRandNum[0];
+        drawCircle(enemyFireX[0], enemyFireY[0], r, 0, Math.PI*2, "yellow");
+    }
+  }
+  
+
+  if (arrRandNumX[1] == 10) {
+    arrRandNum[1] = Math.ceil(Math.random()*550);
+    arrRandNumX[1] = 960;
+    if (enemyFireX[1] < 10) {
+        enemyFireX[1] = 970;
+        enemyFireY[1] = arrRandNum[1];
+        drawCircle(enemyFireX[1], enemyFireY[1], r, 0, Math.PI*2, "yellow");
+    }
+  }
+  
+  if (arrRandNumX[2] == 10) {
+    arrRandNum[2] = Math.ceil(Math.random()*550);
+    arrRandNumX[2] = 960;
+    if (enemyFireX[2] < 10) {
+        enemyFireX[2] = 970;
+        enemyFireY[2] = arrRandNum[2];
+        drawCircle(enemyFireX[2], enemyFireY[2], r, 0, Math.PI*2, "yellow");
+    }
+  }
+
+  if (arrRandNumX[3] == 10) {
+    arrRandNum[3] = Math.ceil(Math.random()*550);
+    arrRandNumX[3] = 960;
+    if (enemyFireX[3] < 10) {
+        enemyFireX[3] = 970;
+        enemyFireY[3] = arrRandNum[3];
+        drawCircle(enemyFireX[3], enemyFireY[3], r, 0, Math.PI*2, "yellow");
+    }
+  }
+}
+
+function moveEnemy(){
+      arrRandNumX[0]--;
+      arrRandNumX[1]--;
+      arrRandNumX[2]--;
+      arrRandNumX[3]--;
+      if (arrRandNum[0] < 450) {
+        enemyFireY[0] += 0.5;
+        enemyFireX[0] -= 3;
+      } else {
+        enemyFireY[0] -= 0.5;
+        enemyFireX[0] -= 3;
+      }
+      if (arrRandNum[1] < 450) {
+        enemyFireY[1] += 0.5;
+        enemyFireX[1] -= 3;
+      } else {
+        enemyFireY[1] -= 0.5;
+        enemyFireX[1] -= 3;
+      }
+      if (arrRandNum[2] < 450) {
+        enemyFireY[2] += 0.5;
+        enemyFireX[2] -= 3;
+      } else {
+        enemyFireY[2] -= 0.5;
+        enemyFireX[2] -= 3;
+      }
+      if (arrRandNum[3] < 450) {
+        enemyFireY[3] += 0.5;
+        enemyFireX[3] -= 3;
+      } else {
+        enemyFireY[3] -= 0.5;
+        enemyFireX[3] -= 3;
+      }
+}
+var heartnum = 3;
+var newRand1 = 0;
+var newRand2 = 0;
+var newRand3 = 0;
+var newRand4 = 0;
+function destroyEnemy(){
+    if (rx > arrRandNumX[0] && rx < arrRandNumX[0]+80 && ry > arrRandNum[0] && ry < arrRandNum[0]+20) {
+      alert("sos")
+    }
+    if (rx > arrRandNumX[1] && rx < arrRandNumX[1]+80 && ry > arrRandNum[1] && ry < arrRandNum[1]+20) {
+      alert("sos")
+    }
+    if (rx > arrRandNumX[2] && rx < arrRandNumX[2]+80 && ry > arrRandNum[2] && ry < arrRandNum[2]+20) {
+      alert("sos")
+    }
+    if (rx > arrRandNumX[3] && rx < arrRandNumX[3]+80 && ry > arrRandNum[3] && ry < arrRandNum[3]+20) {
+      alert("sos")
+    }
+    if (fireX > arrRandNumX[0] && fireX < arrRandNumX[0]+100 && fireY > arrRandNum[0] && fireY < arrRandNum[0]+100) {
+      score+=10;
+      arrRandNum[0] = Math.ceil(Math.random()*550);
+      arrRandNumX[0] = 970;
+      newRand1 = Math.ceil(Math.random()*6);
+      changeEnemy1(newRand1);
+      if (enemyFireX[0] < 10) {
+        enemyFireX[0] = 970;
+        enemyFireY[0] = arrRandNum[0];
+        drawCircle(enemyFireX[0], enemyFireY[0], r, 0, Math.PI*2, "yellow");
+      }
+      fireX = rx+170;
+      fireY = ry+100;
+    }
+
+    if (fireX > arrRandNumX[1] && fireX < arrRandNumX[1]+100 && fireY > arrRandNum[1] && fireY < arrRandNum[1]+100) {
+      score+=10;
+      arrRandNum[1] = Math.ceil(Math.random()*550);
+      arrRandNumX[1] = 970;
+      newRand2 = Math.ceil(Math.random()*6);
+      changeEnemy2(newRand2);
+      if (enemyFireX[1] < 10) {
+        enemyFireX[1] = 970;
+        enemyFireY[1] = arrRandNum[1];
+        drawCircle(enemyFireX[1], enemyFireY[1], r, 0, Math.PI*2, "yellow");
+      }
+      
+      fireX = rx+170;
+      fireY = ry+100;
+    }
+    if (fireX > arrRandNumX[2] && fireX < arrRandNumX[2]+100 && fireY > arrRandNum[2] && fireY < arrRandNum[2]+100) {
+      score+=10; 
+      arrRandNum[2] = Math.ceil(Math.random()*550);
+      arrRandNumX[2] = 970;
+      newRand3 = Math.ceil(Math.random()*6);
+      changeEnemy3(newRand3);
+      if (enemyFireX[2] < 10) {
+        enemyFireX[2] = 970;
+        enemyFireY[2] = arrRandNum[2];
+        drawCircle(enemyFireX[2], enemyFireY[2], r, 0, Math.PI*2, "yellow");
+      }
+      fireX = rx+170;
+      fireY = ry+100;
+    }
+    if (fireX > arrRandNumX[3] && fireX < arrRandNumX[3]+100 && fireY > arrRandNum[3] && fireY < arrRandNum[3]+100) {
+      score+=10; 
+      arrRandNum[3] = Math.ceil(Math.random()*550);
+      arrRandNumX[3] = 970;
+      newRand4 = Math.ceil(Math.random()*6);
+      changeEnemy4(newRand4);
+      if (enemyFireX[3] < 10) {
+        enemyFireX[3] = 970;
+        enemyFireY[3] = arrRandNum[3];
+        drawCircle(enemyFireX[3], enemyFireY[3], r, 0, Math.PI*2, "yellow");
+      }
+      fireX = rx+170;
+      fireY = ry+100;
+    }
+    if (score == 500) {
+       stop();
+       alert("You Win. your score ="+score);
+       document.location.reload();
+    }
+    if (enemyFireX[0] >= rx && enemyFireX[0] <= rx+100 && enemyFireY[0] >= ry && enemyFireY[0] <= ry+100) {
+      heartnum-=1;
+    }
+    if (enemyFireX[1] >= rx && enemyFireX[1] <= rx+100 && enemyFireY[1] >= ry && enemyFireY[1] <= ry+100) {
+      heartnum-=1;
+    }
+    if (enemyFireX[2] >= rx && enemyFireX[2] <= rx+100 && enemyFireY[2] >= ry && enemyFireY[2] <= ry+100) {
+      heartnum-=1;
+    }
+    if (enemyFireX[3] >= rx && enemyFireX[3] <= rx+100 && enemyFireY[3] >= ry && enemyFireY[3] <= ry+100) {
+      heartnum-=1;
+    }
+    document.getElementById("clock").innerHTML = "your score = "+ score;
+}
+
+function minusheart(){
+  if (heartnum < (-20)) {
+    document.getElementById("ship3").style.visibility = "hidden";
+  }
+  if (heartnum < (-50)) {
+    document.getElementById("ship2").style.visibility = "hidden";
+  }
+  if (heartnum < (-80)) {
+    document.getElementById("ship1").style.visibility = "hidden";
+    stop();
+    alert("Game Over");
+    document.location.reload();
+  }
+}
+
+/*function plus(){
+  time += 5;
+  if(time > 100){
+      document.getElementById("plus").disabled = true;
+  }
+  else {
+  	document.getElementById("minus").disabled = false; 
+  }
+  clearInterval(sit);
+  sit = setInterval(game, time);	
+}
+
+function minus(){
+  time -= 5;
+  if(time <= 0){
+      document.getElementById("minus").disabled = true;
+  }
+  else {
+  	document.getElementById("plus").disabled = false; 
+  }
+  clearInterval(sit);
+  sit = setInterval(game, time);	
+}*/
+
+function drawCircle(x, y, r, a1, a2, guyn){
+  ctx.beginPath();
+  ctx.fillStyle = guyn;	
+  ctx.arc(x, y, r, a1, a2);
+  ctx.fill();	
+  ctx.closePath();
+}
+
+function clock(){
+  var aysor = new Date();
+  var jam = aysor.getHours();
+  var rope = aysor.getMinutes();
+  var varkyan = aysor.getSeconds();
+  milsecond = aysor.getMilliseconds();
+
+  if(jam < 10){
+  jam = "0" + jam;
+  }
+
+  if(rope < 10){
+  rope = "0" + rope;
+  }
+
+  if(varkyan < 10){
+  varkyan = "0" + varkyan;
+  }
+
+  //document.getElementById("clock").innerHTML = jam + ":" + rope + ":" + varkyan;
+  //document.getElementById("clock").innerHTML = "your score = "+score;
+}
+</script>
+</head>
+<body onload="load();">
+    <canvas width="960px" height="600px" id="can"></canvas>
+<div style="font-size: 50px; top: 0px; position: absolute; left: 850px;">
+       <input type="button" name="start" id="start" value="Start" onclick="start();">
+       <input type="button" name="stop" id="stop" value="Stop" onclick="stop();" style="display: none">       
+</div>
+<div id="clock" name="clock" style="position: absolute; top: 20px; left: 250px; color: red; font-size: 30px;"></div>
+
+<img src="forrocketgame/space.png" id="space" style="display: none;">
+
+<div style="position: absolute; top: 10px; left: 20px;">
+<img src="forrocketgame/heart.png" id="ship1">
+<img src="forrocketgame/heart.png" id="ship2">
+<img src="forrocketgame/heart.png" id="ship3">
+</div>
+
+<div style="position: absolute; top: 10px; left: 1000px;">
+<img src="forrocketgame/MyShip0.png" id="ship" onclick="changeMyShip(0);"><br>
+<img src="forrocketgame/MyShip1.png" id="starship" onclick="changeMyShip(1);"><br>
+<img src="forrocketgame/MyShip2.png" id="starship1" onclick="changeMyShip(2);"><br>
+<img src="forrocketgame/MyShip3.png" id="starship2" onclick="changeMyShip(3);"><br>
+<img src="forrocketgame/MyShip4.png" id="starship3" onclick="changeMyShip(4);">
+</div>
+<img src="forrocketgame/enemyShip0.png" id="enemy0" style="display: none;">
+<img src="forrocketgame/enemyShip1.png" id="enemy1" style="display: none;">
+<img src="forrocketgame/enemyShip2.png" id="enemy2" style="display: none;">
+<img src="forrocketgame/enemyShip3.png" id="enemy3" style="display: none;">
+<img src="forrocketgame/enemyShip4.png" id="enemy4" style="display: none;">
+<img src="forrocketgame/enemyShip5.png" id="enemy5" style="display: none;">
+<img src="forrocketgame/enemyShip6.png" id="enemy6" style="display: none;">
+<img src="forrocketgame/enemyShip7.png" id="enemy7" style="display: none;">
+<img src="forrocketgame/enemyShip8.png" id="enemy8" style="display: none;">
+<img src="forrocketgame/enemyShip9.png" id="enemy9" style="display: none;">
+<img src="forrocketgame/enemyShip10.png" id="enemy10" style="display: none;">
+<img src="forrocketgame/enemyShip11.png" id="enemy11" style="display: none;">
+<img src="forrocketgame/enemyShip12.png" id="enemy12" style="display: none;">
+<audio controls id="myAudio" style="display: none;">
+  <source src="forrocketgame/gameMusic.mp3" type="audio/mp3">
+</audio>
+<script>
+var audio = document.getElementById("myAudio"); 
+
+function playAudio() {
+  audio.loop = true;
+  audio.play();
+} 
+</script>
+
+<style>
+	body {
+	  overflow: hidden;
+	}
+  .cont {
+   margin-top: -600px;
+   margin-left: 1100px;
+ }
+ .cont button {
+   position: absolute;
+   display: inline-block;
+   outline: none;
+   border: 0;
+   vertical-align: middle;
+   text-decoration: none;
+   background: transparent;
+   padding: 0;
+   font-size: inherit;
+   font-family: inherit;
+   }
+   .cont button.learn-more {
+   width: 12rem;
+   height: auto;
+   }
+   .cont button.learn-more .circle {
+   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+   position: relative;
+   display: block;
+   margin: 0;
+   width: 3rem;
+   height: 3rem;
+   background: #282936;
+   border-radius: 1.625rem;
+   }
+   .cont button.learn-more .circle .icon {
+   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   margin: auto;
+   background: #fff;
+   }
+   .cont button.learn-more .circle .icon.arrow {
+   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+   left: 0.625rem;
+   width: 1.125rem;
+   height: 0.125rem;
+   background: none;
+   }
+   .cont button.learn-more .circle .icon.arrow::before {
+   position: absolute;
+   content: "";
+   top: -0.25rem;
+   right: 0.0625rem;
+   width: 0.625rem;
+   height: 0.625rem;
+   border-top: 0.125rem solid #fff;
+   border-right: 0.125rem solid #fff;
+   transform: rotate(45deg);
+   }
+   .cont button.learn-more .button-text {
+   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   padding: 0.75rem 0;
+   margin: 0 0 0 1.85rem;
+   color: #282936;
+   font-weight: 700;
+   line-height: 1.6;
+   text-align: center;
+   text-transform: uppercase;
+   }
+   .cont button:hover .circle {
+   width: 100%;
+   }
+   .cont button:hover .circle .icon.arrow {
+   background: #fff;
+   transform: translate(1rem, 0);
+   }
+   .cont button:hover .button-text {
+   color: white;
+   }</style>
+  <div class="cont">
+   <button class="learn-more">
+   <span class="circle" aria-hidden="true">
+     <span class="icon arrow"></span>
+   </span>
+   <a href="../gameJavaScript.html"><span class="button-text">Go back</span></a>
+   </button>
+   </div>	
+
+</body>
+</html>

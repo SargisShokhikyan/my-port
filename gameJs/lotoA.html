@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="/lotoA.css">
+	<title>Loto</title>
+    <style>
+    body {
+        /*background: url(space.png);*/
+    }
+    </style>
+	<script>
+    var randomNumber;
+    function RandomNumber(){
+       randomNumber = Math.floor(Math.random()*99); 
+       alert(randomNumber);
+       for (var i = 0; i < 25; i++) {
+         if (randomNumber == document.getElementById("qartB"+i+"").value) {
+            document.getElementById("qartB"+i+"").style.backgroundColor="green";
+         }
+       }
+    }
+    function guynPoxel(x){
+        document.getElementById("qartA"+x+"").style.backgroundColor="green";
+    }
+    /*function guynPoxelB(x){
+        document.getElementById("qartB"+x+"").style.backgroundColor="green";
+        alert(document.getElementById("qartB"+x+"").value);
+    }*/ 
+
+    function qartARandomNumber(){
+       var qartArNumber;     
+       for (var i = 0; i < 25; i++) {
+        if (i%Math.floor(Math.random()*5) != 0) {
+            qartArNumber = Math.floor(Math.random()*99);
+            document.getElementById("qartA"+i+"").innerHTML=qartArNumber;
+        }
+       }   
+    }
+    function qartBRandomNumber(){
+       var qartBrNumber;     
+       for (var i = 0; i < 25; i++) {
+        if (i%Math.floor(Math.random()*5) != 0) {
+            qartBrNumber = Math.floor(Math.random()*99);
+            document.getElementById("qartB"+i+"").value=qartBrNumber;
+            document.getElementById("qartB"+i+"").innerHTML=qartBrNumber;
+        }
+       }
+    }
+</script>
+</head>
+<body>
+<!--<button id="ci" onclick="">Random</button>-->
+<button id="vb" onclick="RandomNumber()">RandomNumber</button>
+<table class ="ga">
+    <tr>
+    <img class="sa" src="/lion.png" alt="loto" align="left">
+    <td><div id="qartA0" onclick="guynPoxel(0)"></div></td>
+    <td><div id="qartA1" onclick="guynPoxel(1)"></div></td>
+    <td><div id="qartA2" onclick="guynPoxel(2)"></div></td>
+    <td><div id="qartA3" onclick="guynPoxel(3)"></div></td>
+    <td><div id="qartA4" onclick="guynPoxel(4)"></div></td>
+    <td><div id="qartA5" onclick="guynPoxel(5)"></div></td>
+    <td><div id="qartA6" onclick="guynPoxel(6)"></div></td>
+    <td><div id="qartA7" onclick="guynPoxel(7)"></div></td>
+    <td><div id="qartA8" onclick="guynPoxel(8)"></div></td>
+  </tr>
+  <tr>
+    <td><div id="qartA9" onclick="guynPoxel(9)"></div></td>
+    <td><div id="qartA10" onclick="guynPoxel(10)"></div></td>
+    <td><div id="qartA11" onclick="guynPoxel(11)"></div></td>
+    <td><div id="qartA12" onclick="guynPoxel(12)"></div></td>
+    <td><div id="qartA13" onclick="guynPoxel(13)"></div></td>
+    <td><div id="qartA14" onclick="guynPoxel(14)"></div></td>
+    <td><div id="qartA15" onclick="guynPoxel(15)"></div></td>
+    <td><div id="qartA16" onclick="guynPoxel(16)"></div></td>
+    <td><div id="qartA17" onclick="guynPoxel(17)"></div></td>
+  </tr>
+  <tr>
+    <td><div id="qartA17" onclick="guynPoxel(17)"></div></td>
+    <td><div id="qartA18" onclick="guynPoxel(18)"></div></td>
+    <td><div id="qartA19" onclick="guynPoxel(19)"></div></td>
+    <td><div id="qartA20" onclick="guynPoxel(20)"></div></td>
+    <td><div id="qartA21" onclick="guynPoxel(21)"></div></td>
+    <td><div id="qartA22" onclick="guynPoxel(22)"></div></td>
+    <td><div id="qartA23" onclick="guynPoxel(23)"></div></td>
+    <td><div id="qartA24" onclick="guynPoxel(24)"></div></td>
+    <td><div id="qartA25" onclick="guynPoxel(25)"></div></td>
+    <script>
+        qartARandomNumber();
+    </script>
+  </tr>
+  
+</table>
+<table id="fi">
+    <tr>
+    <img class="das"src="/puma.jpg" alt="loto" align="left">
+    <td><div id="qartB0" onclick="guynPoxelB(0)"></div></td>
+    <td><div id="qartB1" onclick="guynPoxelB(1)"></div></td>
+    <td><div id="qartB2" onclick="guynPoxelB(2)"></div></td>
+    <td><div id="qartB3" onclick="guynPoxelB(3)"></div></td>
+    <td><div id="qartB4" onclick="guynPoxelB(4)"></div></td>
+    <td><div id="qartB5" onclick="guynPoxelB(5)"></div></td>
+    <td><div id="qartB6" onclick="guynPoxelB(6)"></div></td>
+    <td><div id="qartB7" onclick="guynPoxelB(7)"></div></td>
+    <td><div id="qartB8" onclick="guynPoxelB(8)"></div></td>
+  </tr>
+  <tr>
+    <td><div id="qartB9" onclick="guynPoxelB(9)"></div></td>
+    <td><div id="qartB10" onclick="guynPoxelB(10)"></div></td>
+    <td><div id="qartB11" onclick="guynPoxelB(11)"></div></td>
+    <td><div id="qartB12" onclick="guynPoxelB(12)"></div></td>
+    <td><div id="qartB13" onclick="guynPoxelB(13)"></div></td>
+    <td><div id="qartB14" onclick="guynPoxelB(14)"></div></td>
+    <td><div id="qartB15" onclick="guynPoxelB(15)"></div></td>
+    <td><div id="qartB16" onclick="guynPoxelB(16)"></div></td>
+    <td><div id="qartB17" onclick="guynPoxelB(17)"></div></td>
+  </tr>
+  <tr>
+    <td><div id="qartB17" onclick="guynPoxelB(17)"></div></td>
+    <td><div id="qartB18" onclick="guynPoxelB(18)"></div></td>
+    <td><div id="qartB19" onclick="guynPoxelB(19)"></div></td>
+    <td><div id="qartB20" onclick="guynPoxelB(20)"></div></td>
+    <td><div id="qartB21" onclick="guynPoxelB(21)"></div></td>
+    <td><div id="qartB22" onclick="guynPoxelB(22)"></div></td>
+    <td><div id="qartB23" onclick="guynPoxelB(23)"></div></td>
+    <td><div id="qartB24" onclick="guynPoxelB(24)"></div></td>
+    <td><div id="qartB25" onclick="guynPoxelB(25)"></div></td>
+  </tr>
+  <script>
+    qartBRandomNumber();
+  </script>
+</table>
+
+<style>
+	body {
+	  overflow: hidden;
+	}
+  .cont {
+   margin-top: -600px;
+   margin-left: -100px;
+ }
+ .cont button {
+   position: absolute;
+   display: inline-block;
+   outline: none;
+   border: 0;
+   vertical-align: middle;
+   text-decoration: none;
+   background: transparent;
+   padding: 0;
+   font-size: inherit;
+   font-family: inherit;
+   }
+   .cont button.learn-more {
+   width: 12rem;
+   height: auto;
+   }
+   .cont button.learn-more .circle {
+   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+   position: relative;
+   display: block;
+   margin: 0;
+   width: 3rem;
+   height: 3rem;
+   background: #282936;
+   border-radius: 1.625rem;
+   }
+   .cont button.learn-more .circle .icon {
+   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   margin: auto;
+   background: #fff;
+   }
+   .cont button.learn-more .circle .icon.arrow {
+   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+   left: 0.625rem;
+   width: 1.125rem;
+   height: 0.125rem;
+   background: none;
+   }
+   .cont button.learn-more .circle .icon.arrow::before {
+   position: absolute;
+   content: "";
+   top: -0.25rem;
+   right: 0.0625rem;
+   width: 0.625rem;
+   height: 0.625rem;
+   border-top: 0.125rem solid #fff;
+   border-right: 0.125rem solid #fff;
+   transform: rotate(45deg);
+   }
+   .cont button.learn-more .button-text {
+   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   padding: 0.75rem 0;
+   margin: 0 0 0 1.85rem;
+   color: #282936;
+   font-weight: 700;
+   line-height: 1.6;
+   text-align: center;
+   text-transform: uppercase;
+   }
+   .cont button:hover .circle {
+   width: 100%;
+   }
+   .cont button:hover .circle .icon.arrow {
+   background: #fff;
+   transform: translate(1rem, 0);
+   }
+   .cont button:hover .button-text {
+   color: white;
+   }</style>
+  <div class="cont">
+   <button class="learn-more">
+   <span class="circle" aria-hidden="true">
+     <span class="icon arrow"></span>
+   </span>
+   <a href="/gameJs"><span class="button-text">Go back</span></a>
+   </button>
+   </div>	
+
+</body>
+</html>

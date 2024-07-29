@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chess</title>
+<style>
+.grey {
+	background-color: grey;
+}
+
+.white {
+	background-color: cyan;
+}
+
+input {
+	width: 70px;
+}
+
+td {
+	width: 30px; 
+    height: 30px;
+}
+
+body {
+  font-size: 40px;
+}
+
+.qayler {
+  font-size: 20px;
+  width: 300px;
+  top: 150px;
+  left: 550px;
+}
+
+</style>
+<script>
+
+num = "";
+figure = [[' ','A','B','C','D','E','F','G','H'],
+     ['1','♖','♘','♗','♕','♔','♗','♘','♖'],
+     ['2','♙','♙','♙','♙','♙','♙','♙','♙'],
+     ['3',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+     ['4',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+     ['5',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+     ['6',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+     ['7','♟','♟','♟','♟','♟','♟','♟','♟'],
+     ['8','♜','♞','♝','♚','♛','♝','♞','♜']];
+
+tarer = ['0','A','B','C','D','E','F','G','H'];
+
+function isBlack(i, j){
+var b = false;
+//figure[i][j];
+  if(figure[i][j] == "♟" || figure[i][j] == "♜" || figure[i][j] == "♞" || figure[i][j] == "♝" || figure[i][j] == "♚" || figure[i][j] == "♛"){
+  b = true;
+  } else {
+  b = false;
+  }
+return b;
+}
+
+
+
+function urgent(){
+	document.write("test").innerHTML = "<span style='red'>ushadrutyun</span>";
+}
+
+function tarTiv(x){
+	y = 0;
+	//x = 'A';
+	switch(x){
+    case 'A': y = 1; break;
+    case 'B': y = 2; break;
+    case 'C': y = 3; break;
+    case 'D': y = 4; break;
+    case 'E': y = 5; break;
+    case 'F': y = 6; break;
+    case 'G': y = 7; break;
+    case 'H': y = 8; break;
+    default: y = "anhaskanali qayl";
+	}
+return y;
+}
+
+function shaxmat(){
+	qayl = (document.getElementById("qayl").value);
+	//alert(qayl.length);
+	//alert(qayl.indexOf("-"));
+	//alert(qayl[0]);
+var xajTar = qayl[0];
+xaj = tarTiv(xajTar);
+var xai = qayl[1];
+var xejTar = qayl[3];
+xej = tarTiv(xejTar)
+var xei = qayl[4];
+qaylkatarel(xaj, xai, xej, xei);
+}
+
+datarky = " ";
+function valid(vaj, vai, vej, vei){
+vali = false;
+cFig = figure[vai][vaj];
+
+	if(cFig != datarky){
+      vali = true;
+	} else {
+		vali = false;
+	}
+	  	
+	if(cFig == "♙"){
+     	vai = +vai;
+	   hajord1VandakeDatarkE = (figure[vai+1][vaj] == datarky);
+	   if(hajord1VandakeDatarkE){
+         vali = true;
+	   } else {
+         vali = false;
+	   }
+	  zinvoriarajinqaylE = (vai == 2);
+	  hajord2VandakeDatarkE = (figure[vai+1][vaj] == datarky && figure[vai+2][vaj] == datarky);
+if( (zinvoriarajinqaylE && hajord2VandakeDatarkE) || hajord1VandakeDatarkE){
+     	vali = true;
+	   } else {
+         vali = false;
+	   }
+}
+
+
+if(cFig == "♖"){
+	    var p = 1;
+     	vai = +vai;
+
+var dt = true;
+for(var n = vai+1; n <= vei; n++){
+             if(figure[n][vaj] == datarky){
+             dt = dt && true;
+             } else {
+                 if(isBlack(vei, vej)){
+                 	dt = true;
+                 } else {
+                 	dt = dt && false;
+                 }
+                 //alert(isBlack(vei, vej));
+             }  
+     	}
+vali = dt;
+
+
+     	/*for(var n = vai+1; n <= vei; n++){
+             if(figure[n][vaj] == datarky){
+             p = p*1;
+             } else {
+             p = p*0;
+             }
+     	}
+	   if(p==1){
+         vali = true;
+	   } else {
+         vali = false;
+	   }*/
+
+}
+
+if(cFig=="♗" || cFig=="♝"){
+     var w = true;
+     //ankyunagtiVraE = (vei == vej);
+
+    // a = (vej - vaj + +vai);
+//alert(a);
+     aAnkyunagtiVraE = (vei == (vej - vaj + +vai));
+
+     erkrordDirqyDatarkE = (figure[vei][vej] == datarky);
+     if( ( hAankyunagtiVraE2 || aAnkyunagtiVraE) && erkrordDirqyDatarkE){
+     w = w && true;
+
+/*
+           if(isBlack(vei, vej)){
+           	w = w && true;
+           } else {
+           	w = w && false;
+           }
+           */
+     
+     } else {
+
+     	alert("elephant wrong step");
+     	w = w && false;
+
+           
+     }
+vali = w;
+}
+	
+return vali;	
+}
+
+//katarel qayl
+k = 0;
+keracQarer = "";
+qayler = "";
+function qaylkatarel(aj, ai, ej, ei){
+datarky = " ";
+figure1 = figure[ai][aj];
+
+if(valid(aj, ai, ej, ei)){
+
+figure2 = figure[ei][ej];
+
+figure[ei][ej] = figure[ai][aj];
+figure[ai][aj] = datarky;
+   if(figure2 != datarky){
+   keracQarer = keracQarer + figure2;
+   document.getElementById("keracQarer").innerHTML = keracQarer;
+   }
+   if(k%2 == 0){
+   qayler = qayler + figure1 + tarer[aj] + "" + ai + "-" + tarer[ej] + "" + ei + " ";
+   document.getElementById("qayler").innerHTML = qayler;
+   }
+   else {
+   qayler = qayler + figure1 + tarer[aj] + "" + ai + "-" + tarer[ej] + "" + ei + " " + "</br>";
+   document.getElementById("qayler").innerHTML = qayler;
+   }
+   k++;
+}
+else {
+alert('sxal qayl');
+}
+isBlack(8, 1);
+nkarel();
+}
+
+g = 0;
+function move(i, j){
+g++;
+//alert(i + ":" + j);
+if(g%2 == 1){
+  wai = i; 
+  waj = j;
+  document.getElementById(i + "" + j).style.backgroundColor = "cyan";
+}
+else {
+
+  wei = i;
+  wej = j;
+    document.getElementById(i + "" + j).style.backgroundColor = "blue";
+    qaylkatarel(waj, wai, wej, wei);
+  }
+}
+
+//nkarel shaxmat@
+function nkarel(){
+guyn = "#fff";
+numpad = "";
+numpad = numpad + "<table border='1'>";
+		for(i = 0; i < 9; i++){
+			numpad = numpad + "<tr>";
+			for(j = 0; j < 9; j++){
+            //numpad = numpad + "<td>" + i + "" + j + "</td>";
+            if(i%2 == j%2){
+            	guyn = "#cccccc";
+            }
+            else {
+            	guyn = "#777";
+            }
+            if(j == 0 || i == 0){
+            	guyn = "#eee";
+            }
+            if(i%2 == j%2){
+              numpad = numpad + "<td id='"+ i + "" + j +"'  onmousedown='move("+ i + "," + j +")' bgcolor='"+ guyn +"' title='" + tarer[j] + i +"'>" + figure[i][j] + "</td>";
+              } else {
+                numpad = numpad + "<td id='"+ i + "" + j +"'   onmousedown='move("+ i + "," + j +")' bgcolor='"+ guyn +"' title='" + tarer[j] + i +"'>" + figure[i][j] + "</td>";
+              }
+			}
+	    numpad = numpad + "</tr>";
+        }
+numpad = numpad + "</table>";
+document.getElementById("shaxmat").innerHTML = numpad;
+//document.write(numpad);	
+}  
+//qaylkatarel(6, 1, 5, 4);
+//qaylkatarel(1, 1, 1, 5);
+
+</script>
+
+</head>
+<body onload="nkarel()">
+
+<div align="center">
+<!--<input type="text" name="qayl" id="qayl" value="" onblur="shaxmat()" size="10" maxlength="5" placeholder="Grel A1-A5"/>-->
+<span style="font-size: 23px;">click on the shapes to move them</span>
+
+<div id="keracQarer" class="qayler"></div>
+<div id="qayler" class="qayler"></div>
+</div>
+<div id="test"></div>
+<div id="shaxmat" align="center"></div>
+
+
+  <style>
+
+    .cont {
+     margin-top: -500px;
+     margin-left: 100px;
+     font-size: 18px;
+   }
+   .cont button {
+     position: absolute;
+     display: inline-block;
+     outline: none;
+     border: 0;
+     vertical-align: middle;
+     text-decoration: none;
+     background: transparent;
+     padding: 0;
+     font-size: inherit;
+     font-family: inherit;
+     }
+     .cont button.learn-more {
+     width: 12rem;
+     height: auto;
+     }
+     .cont button.learn-more .circle {
+     transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+     position: relative;
+     display: block;
+     margin: 0;
+     width: 3rem;
+     height: 3rem;
+     background: #282936;
+     border-radius: 1.625rem;
+     }
+     .cont button.learn-more .circle .icon {
+     transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+     position: absolute;
+     top: 0;
+     bottom: 0;
+     margin: auto;
+     background: #fff;
+     }
+     .cont button.learn-more .circle .icon.arrow {
+     transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+     left: 0.625rem;
+     width: 1.125rem;
+     height: 0.125rem;
+     background: none;
+     }
+     .cont button.learn-more .circle .icon.arrow::before {
+     position: absolute;
+     content: "";
+     top: -0.25rem;
+     right: 0.0625rem;
+     width: 0.625rem;
+     height: 0.625rem;
+     border-top: 0.125rem solid #fff;
+     border-right: 0.125rem solid #fff;
+     transform: rotate(45deg);
+     }
+     .cont button.learn-more .button-text {
+     transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     padding: 0.75rem 0;
+     margin: 0 0 0 1.85rem;
+     color: #282936;
+     font-weight: 700;
+     line-height: 1.6;
+     text-align: center;
+     text-transform: uppercase;
+     }
+     .cont button:hover .circle {
+     width: 100%;
+     }
+     .cont button:hover .circle .icon.arrow {
+     background: #fff;
+     transform: translate(1rem, 0);
+     }
+     .cont button:hover .button-text {
+     color: white;
+     }</style>
+    <div class="cont">
+     <button class="learn-more">
+     <span class="circle" aria-hidden="true">
+       <span class="icon arrow"></span>
+     </span>
+     <a href="../gameJavaScript.html"><span class="button-text">Go back</span></a>
+     </button>
+     </div>	
+
+</body>
+</html>

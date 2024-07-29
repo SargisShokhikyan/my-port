@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Count letter</title>
+	<style>
+	    *{
+	    	margin: 0;
+	    	padding: 0;
+	    }
+	    .divText{
+	    	height: 30px;
+	    	width: 100%;
+	    	background-color: grey;
+	    	display: flex;
+	    }
+		.div{
+			background-color: red;
+			margin-top: 3px;
+			height: 20px;
+            width: 10px;
+		}
+		.ptext{
+			margin-left: 30px;
+		}
+	</style>
+</head>
+<body>
+	<style type="text/css">
+	a.tip {
+    border-bottom: 1px dashed;
+    text-decoration: none
+}
+a.tip:hover {
+    cursor: help;
+    position: relative
+}
+a.tip span {
+    display: none
+}
+a.tip:hover span {
+    border: #c0c0c0 1px dotted;
+    padding: 5px 20px 5px 5px;
+    display: block;
+    z-index: 100;
+    background: url(../images/status-info.png) #f0f0f0 no-repeat 100% 5%;
+    left: 0px;
+    margin: 10px;
+    width: 250px;
+    position: absolute;
+    top: 10px;
+    text-decoration: none
+}
+</style>
+	<textarea style="margin-left: 50px; margin-top: 20px;" id="text" rows="4" cols="50" placeholder="your text"></textarea>
+<!--<input type="button" value="count letter" id="count" onclick = "start()" />-->
+<a href="#" class="tip"><input type="button" id="count" value="count" onclick = "start()"/><span>press to count</span></a>
+<!--<div class="divText" id="dText0"><div class="div" id="d0"></div></div>-->
+    <script>
+		var alphabet = "abcdefghijklmnopqrstuvwxyz";
+		var qanakM = [];
+		function hashvelTareriQanak(xtext,xalphabet){
+    		var qanak = 0;
+    		var i = 0;
+    		for(var j = 0; j < xalphabet.length; j++){
+	    		do{
+	           		i = xtext.indexOf(xalphabet[j], i);
+	           		qanak++;
+	           		i++;
+	    		} while (i != 0);
+	    		qanakM[j] = qanak-1;
+	    		//document.write(xalphabet[j] + "=" + qanakM[j] + " ");
+	    		qanak = 0;       				
+			}
+		}
+		function nkarel(){
+			//alert(qanakM.length);
+			var nkar = "";
+	        for(var i=0;i < qanakM.length; i++){
+	          for(var j=0;j < qanakM[i]; j++){
+	             nkar += ".";
+	          }
+	          document.write(alphabet[i]+" "+qanakM[i]+" "+nkar+"<br>");
+	          nkar = "";
+	        }
+		}
+		function nkarelHtml(){
+			//var tag = "";
+	        for(var i=0;i < qanakM.length; i++){
+	          //tag = "<div class='divText'>"+alphabet[i]+":"+qanakM[i]+"<div class='div' id='d"+i+"'></div></div>";
+	          //document.write(tag);
+	          var newDiv1 = document.createElement("div"); 
+	          var newDiv2 = document.createElement("div");
+	          var newP = document.createElement("p");
+	          newP.className = "ptext";
+	          newDiv1.className = "divText";
+	          newDiv1.id = "div"+i+"";
+			  newDiv2.id = "d"+i+"";
+			  newDiv2.className = "div";
+			  document.getElementsByTagName('body')[0].appendChild(newDiv1);
+			  document.getElementById("div"+i+"").appendChild(newP);
+			  newP.innerHTML = alphabet[i]+":"+qanakM[i];
+			  document.getElementById("div"+i+"").appendChild(newDiv2);
+			  document.getElementById("d"+i+"").style.width = ""+(qanakM[i]*10)+"px";
+	        }      
+		}
+		function start(){
+			document.getElementById('text').style.display = "none";
+			document.getElementById('count').style.display = "none";
+			var rtext = document.getElementById('text').value;
+			var res = rtext.toLowerCase();
+			//alert(rtext);
+			hashvelTareriQanak(res,alphabet);
+			nkarelHtml();
+		}
+	</script>
+
+<style>
+	 .cont {
+	  margin-top: 0px;
+	  margin-left: 900px;
+	}
+	.cont button {
+	  position: absolute;
+	  display: inline-block;
+	  outline: none;
+	  border: 0;
+	  vertical-align: middle;
+	  text-decoration: none;
+	  background: transparent;
+	  padding: 0;
+	  font-size: inherit;
+	  font-family: inherit;
+	  }
+	  .cont button.learn-more {
+	  width: 12rem;
+	  height: auto;
+	  }
+	  .cont button.learn-more .circle {
+	  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+	  position: relative;
+	  display: block;
+	  margin: 0;
+	  width: 3rem;
+	  height: 3rem;
+	  background: #282936;
+	  border-radius: 1.625rem;
+	  }
+	  .cont button.learn-more .circle .icon {
+	  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+	  position: absolute;
+	  top: 0;
+	  bottom: 0;
+	  margin: auto;
+	  background: #fff;
+	  }
+	  .cont button.learn-more .circle .icon.arrow {
+	  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+	  left: 0.625rem;
+	  width: 1.125rem;
+	  height: 0.125rem;
+	  background: none;
+	  }
+	  .cont button.learn-more .circle .icon.arrow::before {
+	  position: absolute;
+	  content: "";
+	  top: -0.25rem;
+	  right: 0.0625rem;
+	  width: 0.625rem;
+	  height: 0.625rem;
+	  border-top: 0.125rem solid #fff;
+	  border-right: 0.125rem solid #fff;
+	  transform: rotate(45deg);
+	  }
+	  .cont button.learn-more .button-text {
+	  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  padding: 0.75rem 0;
+	  margin: 0 0 0 1.85rem;
+	  color: #282936;
+	  font-weight: 700;
+	  line-height: 1.6;
+	  text-align: center;
+	  text-transform: uppercase;
+	  }
+	  .cont button:hover .circle {
+	  width: 100%;
+	  }
+	  .cont button:hover .circle .icon.arrow {
+	  background: #fff;
+	  transform: translate(1rem, 0);
+	  }
+	  .cont button:hover .button-text {
+	  color: white;
+	  }</style>
+	 <div class="cont">
+	  <button class="learn-more">
+		<span class="circle" aria-hidden="true">
+		  <span class="icon arrow"></span>
+		</span>
+		<a href="../javascript.html"><span class="button-text">Go back</span></a>
+		</button>
+	  </div>
+</body>
+</html>

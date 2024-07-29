@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>XO</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+<style>
+	body{
+		background: grey;
+	}
+	table{
+		/*width: 150px;
+		height: 150px;*/
+	}
+	input{
+		/*background-color: #4CAF50;  Green */
+		margin-left: 250px;
+		position: absolute;
+		font-family: 'Orbitron', sans-serif;
+		background-color: black;
+	    border: none;
+	    color: white;
+	    padding: 15px 32px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 16px;
+	}
+	input:hover{
+		background-color: #d53739;
+	}
+	p{
+		color: yellow;
+		text-align: center;
+		font-size: 40px;
+		font-family: 'Orbitron', sans-serif;
+		margin-top: 20px;
+	}
+	table, th, td {
+		font-family: 'Orbitron', sans-serif;
+		width: 550px;
+		height: 150px;
+		margin-top: 50px;
+		margin-left: 30%;
+  		border: 1px solid black;
+  		border-collapse: collapse;
+	}
+	td{
+		text-align: center;
+		font-size: 50px;
+	}
+	.cont {
+   
+ }
+ .cont button {
+   position: absolute;
+   display: inline-block;
+   outline: none;
+   border: 0;
+   vertical-align: middle;
+   text-decoration: none;
+   background: transparent;
+   padding: 0;
+   font-size: inherit;
+   font-family: inherit;
+   }
+   .cont button.learn-more {
+   width: 12rem;
+   height: auto;
+   }
+   .cont button.learn-more .circle {
+   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+   position: relative;
+   display: block;
+   margin: 0;
+   width: 3rem;
+   height: 3rem;
+   background: #282936;
+   border-radius: 1.625rem;
+   }
+   .cont button.learn-more .circle .icon {
+   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   margin: auto;
+   background: #fff;
+   }
+   .cont button.learn-more .circle .icon.arrow {
+   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+   left: 0.625rem;
+   width: 1.125rem;
+   height: 0.125rem;
+   background: none;
+   }
+   .cont button.learn-more .circle .icon.arrow::before {
+   position: absolute;
+   content: "";
+   top: -0.25rem;
+   right: 0.0625rem;
+   width: 0.625rem;
+   height: 0.625rem;
+   border-top: 0.125rem solid #fff;
+   border-right: 0.125rem solid #fff;
+   transform: rotate(45deg);
+   }
+   .cont button.learn-more .button-text {
+   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   padding: 0.75rem 0;
+   margin: 0 0 0 1.85rem;
+   color: #282936;
+   font-weight: 700;
+   line-height: 1.6;
+   text-align: center;
+   text-transform: uppercase;
+   }
+   .cont button:hover .circle {
+   width: 100%;
+   }
+   .cont button:hover .circle .icon.arrow {
+   background: #fff;
+   transform: translate(1rem, 0);
+   }
+   .cont button:hover .button-text {
+   color: white;
+   }
+</style>
+<script>
+	var idmass = ["row1column1","row1column2","row1column3","row2column1","row2column2","row2column3","row3column1","row3column2","row3column3"];
+	var count = 0;
+	var b = true;
+
+	function func(id) {
+		count++;
+		document.getElementById(id).innerHTML="X";
+		document.getElementById(id).value="X";
+		document.getElementById(id).style.pointerEvents = "none";
+		if (count <= 4) {
+			ii();
+		}
+	}
+
+	function ii() {
+	    b = true;	
+		while(b){
+			var iid = Math.floor(Math.random() * 9);
+			if (document.getElementById(idmass[iid]).value != "X" && document.getElementById(idmass[iid]).value != "O") {
+				document.getElementById(idmass[iid]).innerHTML="O";
+				document.getElementById(idmass[iid]).value="O";
+				document.getElementById(idmass[iid]).style.pointerEvents = "none";
+				b = false;
+			}
+		}	
+	}
+
+	function Clear(){
+		for (var i = 0; i < idmass.length; i++) {
+			document.getElementById(idmass[i]).innerHTML=" ";
+			document.getElementById(idmass[i]).value="";
+			document.getElementById(idmass[i]).style.pointerEvents = "auto";
+		}
+		count = 0;
+	}
+
+	function hide(){
+		document.getElementById("ptext").style.visibility = "hidden";
+	}
+</script>
+</head>
+<body>
+	<div class="cont">
+		<button class="learn-more">
+		<span class="circle" aria-hidden="true">
+		  <span class="icon arrow"></span>
+		</span>
+		<a href="../gameJavaScript.html"><span class="button-text">Go back</span></a>
+		</button>
+	</div>	
+<input type="button" name="Clear" value="Clear" onclick="Clear()">
+<!--<p id="ptext" onmouseover="hide()">Angel jan vonc es ?</p>-->
+<table>
+  <tr>
+    <td id="row1column1" onclick="func(idmass[0])"></td>
+    <td id="row1column2" onclick="func(idmass[1])"></td>
+    <td id="row1column3" onclick="func(idmass[2])"></td>
+  </tr>
+  <tr>
+    <td id="row2column1" onclick="func(idmass[3])"></td>
+    <td id="row2column2" onclick="func(idmass[4])"></td>
+    <td id="row2column3" onclick="func(idmass[5])"></td>
+  </tr>
+  <tr>
+    <td id="row3column1" onclick="func(idmass[6])"></td>
+    <td id="row3column2" onclick="func(idmass[7])"></td>
+    <td id="row3column3" onclick="func(idmass[8])"></td>
+  </tr>
+</table>
+</body>
+</html>

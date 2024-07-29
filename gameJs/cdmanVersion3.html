@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pac man</title>
+  <script src= 
+"https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.6.2/fabric.min.js"> 
+  </script> 
+<style>
+	body {
+		background: url(forcdman/prime.jpg);
+	}
+</style>
+<script>
+var milsecond = 0;
+var varkyan = 0;
+var sit;
+var time = 13;
+var text = "";
+var right = true;
+var left = false;
+var up = false;
+var down = false;
+
+var downRight = false;
+
+var x = -200;
+var y = -200;
+var vx = 1;
+
+var rx = 70;
+var ry = 200;
+
+var enX = 400;
+var enY = 300;
+
+var enX2 = 700;
+var enY2 = 200;
+
+var enX0 = 500;
+var enY0 = 400;
+
+var upEn = false;
+var downEn = false;
+var rightEn = false;
+var leftEn = false;
+
+var upEn2 = false;
+var downEn2 = false;
+var rightEn2 = false;
+var leftEn2 = false;
+
+var Re = 0;
+var Re2 = 3;
+
+var gemX = 200;
+var gemY = 40;
+
+var score = 0;
+
+var massiv = {};
+
+var gemQ = 0;
+var arr  = [['0','0','0','0','0','0'],
+            ['0','0','0','0','0','0'],
+            ['0','0','0','0','0','0'],
+            ['0','0','0','0','0','0'],
+            ['0','0','0','0','0','0']];
+
+function init(){
+  massiv = [['1','1','1','1','1','1'],
+            ['1','1','1','1','1','1'],
+            ['1','1','1','1','1','1'],
+            ['1','1','1','1','1','1'],
+            ['1','1','1','1','1','1']];
+  c = document.getElementById("can");
+  //c.addEventListener("mousemove", moveship, false);
+  //document.addEventListener("keyup", keyUpHandler, false);
+  document.addEventListener("keydown", keyUpHandler, false);	
+  ctx = c.getContext("2d");
+  cw = c.width;
+  ch = c.height;
+  enemy = document.getElementById("enemy");
+  rocket = document.getElementById("starship");
+  rocketleft = document.getElementById("starshipleft");
+  rocketup = document.getElementById("starshipup");
+  rocketdown = document.getElementById("starshipdown"); 
+  sp = document.getElementById("space");
+  rombb = document.getElementById("rombb");
+}
+
+function start(){
+  sit = setInterval(game, time);
+}
+function stop(){
+  clearInterval(sit);
+}
+function sub(){
+  window.location.href = "cdmanVersion3.html";
+}
+
+function game(){
+  clock();
+  //init();
+  nkarelSpace();
+  nkarelGem();
+  drawOr();
+  nkarelEnemy();
+  nkarelEnemy2();
+  nkarelEnemy0();
+  qanak();
+  move();
+  moveEnemy();
+  moveEnemy2();
+  moveEnemy0();
+  movebg();
+  GameWin();
+  GameOver();
+}
+
+function nkarelSpace(){
+  ctx.drawImage(sp, x, y);
+}
+
+function nkarelRocket(){
+  /*ctx.beginPath();
+  ctx.arc(rx, ry, 40, 0, 2 * Math.PI);
+  ctx.fillStyle = "green";
+  ctx.fill();
+  ctx.stroke();*/
+  ctx.drawImage(rocket, rx-40, ry-40);
+}
+function nkarelRocketleft(){
+  /*ctx.beginPath();
+  ctx.arc(rx, ry, 40, 0, 2 * Math.PI);
+  ctx.fillStyle = "green";
+  ctx.fill();
+  ctx.stroke();*/
+  ctx.drawImage(rocketleft, rx-40, ry-40);
+}
+function nkarelRocketup(){
+  /*ctx.beginPath();
+  ctx.arc(rx, ry, 40, 0, 2 * Math.PI);
+  ctx.fillStyle = "green";
+  ctx.fill();
+  ctx.stroke();*/
+  ctx.drawImage(rocketup, rx-40, ry-40);
+}
+function nkarelRocketdown(){
+  /*ctx.beginPath();
+  ctx.arc(rx, ry, 40, 0, 2 * Math.PI);
+  ctx.fillStyle = "green";
+  ctx.fill();
+  ctx.stroke();*/
+  ctx.drawImage(rocketdown, rx-40, ry-40);
+}
+
+function drawOr(){
+  if (left) {
+    nkarelRocketleft();
+  }
+  if (right) {
+    nkarelRocket();
+  }
+  if (up) {
+    nkarelRocketup();
+  }
+  if (down) {
+    nkarelRocketdown();
+  }
+}
+
+
+var circle={x:100,y:290,r:10};
+var rect={x:100,y:100,w:40,h:100};
+
+// return true if the rectangle and circle are colliding
+function RectCircleColliding(circle,rect){
+  var distX = Math.abs(circle.x - rect.x-rect.w/2);
+  var distY = Math.abs(circle.y - rect.y-rect.h/2);
+
+  if (distX > (rect.w/2 + circle.r)) { return false; }
+  if (distY > (rect.h/2 + circle.r)) { return false; }
+
+  if (distX <= (rect.w/2)) { return true; } 
+  if (distY <= (rect.h/2)) { return true; }
+
+  var dx=distX-rect.w/2;
+  var dy=distY-rect.h/2;
+  return (dx*dx+dy*dy<=(circle.r*circle.r));
+}
+ 
+function nkarelGem(){
+  var bool = false;
+  for (var i = 0; i < massiv.length; i++) {
+  	for (var j = 0; j < massiv[0].length; j++) {
+      var rectx = gemX + j*120;
+      var recty = gemY + i*100;
+      if (massiv[i][j] == "1") {
+        ctx.drawImage(rombb, gemX + j*120, gemY + i*100, 50, 50);
+      } else  if (massiv[i][j] == "2") {
+        ctx.drawImage(rombr, gemX + j*120, gemY + i*100, 50, 50);
+      }
+      if (rx >= rectx && rx <= rectx+70 && ry >= recty && ry <= recty+70) {
+        bool = true;
+        massiv[i][j] = "0";
+      }
+  	}
+  }
+}
+
+function GameWin(){
+  var win0 = arrayEquals(arr[0],massiv[0]);
+  var win1 = arrayEquals(arr[1],massiv[1]);
+  var win2 = arrayEquals(arr[2],massiv[2]);
+  var win3 = arrayEquals(arr[3],massiv[3]);
+  var win4 = arrayEquals(arr[4],massiv[4]);
+  //document.getElementById("score").innerHTML = " win0 " + win0 +" "+" win1 " + win1 +" "+" win2 " + win2 +" "+" win3 " + win3 +" "+" win4 " + win4;
+  if (win0 && win1 && win2 && win3 && win4) {
+     stop();
+     alert("YOU WIN, CONGRATS!");
+     document.location.reload();
+  }
+}
+
+function arrayEquals(a, b) {
+  return Array.isArray(a) &&
+    Array.isArray(b) &&
+    a.length === b.length &&
+    a.every((val, index) => val === b[index]);
+}
+
+function compare(arr1,arr2){
+  
+   if(!arr1  || !arr2) return
+  
+    let result;
+  
+  arr1.forEach((e1,i)=>arr2.forEach(e2=>{
+    
+         if(e1.length > 1 && e2.length){
+            result = compare(e1,e2);
+         }else if(e1 != e2 ){
+            result = false
+         }else{
+            result = true
+         }
+    })
+  )
+  
+  return result
+  
+}
+
+function GameOver(){
+  if (rx >= enX && rx <= enX+80 && ry >= enY && ry <= enY+80){
+    stop();
+    alert("Game Over");
+    document.location.reload();
+  }
+  if (rx >= enX0 && rx <= enX0+80 && ry >= enY0 && ry <= enY0+80){
+    stop();
+    alert("Game Over");
+    document.location.reload();
+  }
+  if (rx >= enX2 && rx <= enX2+80 && ry >= enY2 && ry <= enY2+80){
+    stop();    
+    alert("Game Over");
+    document.location.reload();
+  }
+}
+
+function qanak(){
+gemQ = 0;
+   for (var i = 0; i < massiv.length; i++) {
+       for (var j = 0; j < massiv[0].length; j++) {
+          if (massiv[i][j] != "0") {
+            gemQ++;
+          }
+       } 
+   }
+}
+
+function nkarelEnemy(){ 
+  /*ctx.beginPath();
+  ctx.rect(enX, enY, 50, 60);
+  ctx.fillStyle = "green";
+  ctx.fill();
+  ctx.stroke();*/
+  ctx.drawImage(enemy, enX-10, enY-10);
+}
+function nkarelEnemy2(){
+  ctx.drawImage(enemy, enX2-10, enY2-10);
+}
+function nkarelEnemy0(){ // hetapndum follow enemy
+  ctx.drawImage(enemy, enX0-10, enY0-10);
+}
+
+function moveEnemy0(){
+  if (enX0 < rx) {
+  	enX0 += 0.5;
+  } else {
+    enX0 -= 0.5;
+  }
+  if (enY0 < ry) {
+  	enY0 += 0.3;
+  } else {
+    enY0 -= 0.3;
+  }
+}
+
+function randomMoveEnemy(){
+  randomNumber();
+  if(Re >= 0 && Re <= 4){
+    rightEn = true;
+    downEn = false;
+    upEn = false;
+    leftEn = false;
+  }
+  if(Re > 4 && Re <= 8){
+    downEn = true;
+    rightEn = false;
+    upEn = false;
+    leftEn = false;
+  }
+  if(Re > 8 && Re <= 12){
+    leftEn = true;
+    downEn = false;
+    upEn = false;
+    rightEn = false;
+  }
+  if(Re > 12 && Re <= 16){
+    upEn = true;
+    downEn = false;
+    rightEn = false;
+    leftEn = false;	
+  }
+}
+
+function randomMoveEnemy2(){
+  randomNumber2();
+  if(Re2 > 0 && Re2 < 4){
+    downEn2 = true;
+    rightEn2 = false;
+    upEn2 = false;
+    leftEn2 = false;
+  }
+  if(Re2 > 3 && Re2 < 7){
+    rightEn2 = true;
+    downEn2 = false;
+    upEn2 = false;
+    leftEn2 = false;
+  }
+  if(Re2 > 6 && Re2 < 10){
+    leftEn2 = true;
+    downEn2 = false;
+    upEn2 = false;
+    rightEn2 = false;
+  }
+  if(Re2 > 9 && Re2 < 13){
+    upEn2 = true;
+    downEn2 = false;
+    rightEn2 = false;
+    leftEn2 = false;	
+  }
+}
+
+function rand(){
+  var ren = Math.random()*16;
+  Re = Math.ceil(ren);
+}
+
+function rand2(){
+  var ren = Math.random()*12;
+  Re2 = Math.ceil(ren);
+}
+
+function randomNumber(){
+  if (milsecond > 0 && milsecond < 15) {
+  	rand();
+  }
+}
+
+function randomNumber2(){
+  if (milsecond > 27 && milsecond < 42) {
+  	rand2();
+  }
+}
+
+function moveEnemy(){
+  randomMoveEnemy();
+  if(leftEn){
+    enX--;
+    if (enX == 0) {
+      enX = cw;
+    }
+  }
+  if(upEn){
+    enY--;
+    if (enY == 0) {
+      enY = ch;
+    }
+  }
+  if(rightEn){
+    enX++;
+    if (enX == cw) {
+        enX = 0;
+    }	
+  }
+  if(downEn){
+    enY++;
+    if (enY == ch) {
+      enY = 0;
+    }
+  }
+}
+
+function moveEnemy2(){
+  randomMoveEnemy2();
+  if(leftEn2){
+    enX2--;
+    if (enX2 == 0) {
+      enX2 = cw;
+    }
+  }
+  if(upEn2){
+    enY2--;
+    if (enY2 == 0) {
+      enY2 = ch;
+    }
+  }
+  if(rightEn2){
+    enX2++;
+    if (enX2 == cw) {
+      enX2 = 0;
+    } 
+  }
+  if(downEn2){
+    enY2++;
+    if (enY2 == ch) {
+      enY2 = 0;
+    }	
+  }
+}
+
+function movebg(){
+	if (right) {
+	   x = x - vx;
+ 	   if(x == -900){
+        x = 0;
+	   }
+	}
+	if (down){
+       y = y - vx;
+       if(y == -200){
+         y = 0;
+       }
+	}
+	if (left){
+       x = x + vx;
+       if(x == 50){
+         x = 0;
+       }
+	}
+	if (up){
+       y = y + vx;
+       if(y == 50){
+         y = 0;
+       }
+	}
+}
+
+function keyUpHandler(e){
+  var key = e.keyCode;
+	if (key == 38) {
+    up = true;
+    left = false;
+  	right = false;
+  	down = false;
+	}
+	if (key == 40) {
+		down = true;
+    left = false;
+  	up = false;
+  	right = false;
+	}
+	if (key == 37) {
+		left = true;
+	  right = false;
+  	up = false;
+  	down = false;
+	}
+	if (key == 39) {
+		right = true;
+	  left = false;
+  	up = false;
+  	down = false;
+	}
+
+  //document.getElementById("name").innerHTML = right + ":" + down + ":" + left + ":" + up;  
+}
+
+function move(){
+  if(right){
+  	rx++;
+  	if (rx == cw) {
+  	    rx = 0;
+  	}
+  }
+  if(left){
+  	rx--;
+  	if (rx == 0) {
+  		rx = cw;
+  	}
+  }
+  if(up){
+  	ry--;
+  	if (ry == 0) {
+  		ry = ch;
+  	}
+  }
+  if(down){
+  	ry++;
+  	if (ry == ch) {
+  		ry = 0;
+  	}
+  }
+}
+
+function clock(){
+  var aysor = new Date();
+  var jam = aysor.getHours();
+  var rope = aysor.getMinutes();
+  varkyan = aysor.getSeconds();
+  milsecond = aysor.getMilliseconds();
+
+  if(jam < 10){
+    jam = "0" + jam;
+  }
+
+  if(rope < 10){
+    rope = "0" + rope;
+  }
+
+  if(varkyan < 10){
+    varkyan = "0" + varkyan;
+  }
+
+  //document.getElementById("clock").innerHTML = jam + ":" + rope + ":" + varkyan + ":" + milsecond + ":" + Re + ":" + Re2;
+  //j = jam + ":" + rope + ":" + varkyan; 
+  //return j;
+}
+
+</script>
+</head>
+<body onload="init();">
+<canvas width="960px" height="580px" id="can"></canvas>
+<!--<form action="cdmanB.html" method="get">-->
+<img src="forcdman/space.png" id="space" style="display: none;"/>
+<input type="button" name="start" id="start" value="start" onclick="start();"/>
+<input type="button" name="rel" id="rel" value="reload" onclick="sub();" />
+<input type="button" name="stop" id="stop" value="stop" onclick="stop();"/>
+
+<img src="forcdman/pac.png" id="starship" title="4" style="display: none;"/>
+<img src="forcdman/pacleft.png" id="starshipleft" title="4" style="display: none;"/>
+<img src="forcdman/pacup.png" id="starshipup" title="4" style="display: none;"/>
+<img src="forcdman/pacdown.png" id="starshipdown" title="4" style="display: none;"/>
+<img src="forcdman/ghost.png" id="enemy" style="display: none;"/>
+
+<div style="color: red; font-size: 24px; top: 50px; position: absolute;" id="score"></div>
+<div id="clock" name="clock" style="color: red; position: absolute; font-size: 24px; top: 15px; left: 50px;"></div>
+
+<img src="forcdman/rombb.png" id="rombb" style="display: none;"/>
+<img src="forcdman/rombr.png" id="rombr" style="display: none;"/>
+<img src="forcdman/rombg.png" id="rombg" style="display: none;"/>
+
+<style>
+	body {
+	  overflow: hidden;
+	}
+	 .cont {
+	  margin-top: -550px;
+	  margin-left: 1000px;
+	}
+	.cont button {
+	  position: absolute;
+	  display: inline-block;
+	  outline: none;
+	  border: 0;
+	  vertical-align: middle;
+	  text-decoration: none;
+	  background: transparent;
+	  padding: 0;
+	  font-size: inherit;
+	  font-family: inherit;
+	  }
+	  .cont button.learn-more {
+	  width: 12rem;
+	  height: auto;
+	  }
+	  .cont button.learn-more .circle {
+	  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+	  position: relative;
+	  display: block;
+	  margin: 0;
+	  width: 3rem;
+	  height: 3rem;
+	  background: #282936;
+	  border-radius: 1.625rem;
+	  }
+	  .cont button.learn-more .circle .icon {
+	  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+	  position: absolute;
+	  top: 0;
+	  bottom: 0;
+	  margin: auto;
+	  background: #fff;
+	  }
+	  .cont button.learn-more .circle .icon.arrow {
+	  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+	  left: 0.625rem;
+	  width: 1.125rem;
+	  height: 0.125rem;
+	  background: none;
+	  }
+	  .cont button.learn-more .circle .icon.arrow::before {
+	  position: absolute;
+	  content: "";
+	  top: -0.25rem;
+	  right: 0.0625rem;
+	  width: 0.625rem;
+	  height: 0.625rem;
+	  border-top: 0.125rem solid #fff;
+	  border-right: 0.125rem solid #fff;
+	  transform: rotate(45deg);
+	  }
+	  .cont button.learn-more .button-text {
+	  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  padding: 0.75rem 0;
+	  margin: 0 0 0 1.85rem;
+	  color: #282936;
+	  font-weight: 700;
+	  line-height: 1.6;
+	  text-align: center;
+	  text-transform: uppercase;
+	  }
+	  .cont button:hover .circle {
+	  width: 100%;
+	  }
+	  .cont button:hover .circle .icon.arrow {
+	  background: #fff;
+	  transform: translate(1rem, 0);
+	  }
+	  .cont button:hover .button-text {
+	  color: white;
+	  }</style>
+	 <div class="cont">
+	  <button class="learn-more">
+		<span class="circle" aria-hidden="true">
+		  <span class="icon arrow"></span>
+		</span>
+		<a href="../gameJavaScript.html"><span class="button-text">Go back</span></a>
+		</button>
+	  </div>
+</body>
+</html>
